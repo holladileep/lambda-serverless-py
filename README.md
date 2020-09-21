@@ -49,24 +49,17 @@ Lambda functions only contain a basic installation of Python + `boto3` and do no
 
 ### Building the Lambda
 
-
-#### Install virtualenv
-
-```
-pip3 install virtualenv
-```
-
-#### Create a Virtual Environment 
+> Create a Virtual Environment 
 
 ```
-mkvirtualenv my_first_lambda
-mkdir my_first_lambda
+pip3 install pipenv
+pipenv shell --python 3.7
 pip3 install python-lambda
 ```
 
 If your python script requires any additonal libraries - you may install it at this stage.
 
-#### Initiate Lambda Deployement 
+> Initiate Lambda Deployement 
 
 ```
 lambda init
@@ -105,6 +98,7 @@ build:
   source_directories: lib
 ```
 
+
 ### Deploying the Lambda Function
 
 Although - you could zip the contents of the directory and upload the file to the Lambda console - let's take advantage of `python-lambda` to do it for us
@@ -114,3 +108,8 @@ lambda deploy
 ```
 This should create a new Lambda function on your AWS Lambda Console
 
+
+
+### Using the Lambda Functions on this repo
+
+The directories prefixed with `lambda-` are all Lambda functions, they can be cloned and deployed on to your AWS Account. The directory contains the config.yaml (with all the configuration information) +  Pipfile containing the project dependencies. 
