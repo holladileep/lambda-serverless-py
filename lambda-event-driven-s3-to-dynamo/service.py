@@ -5,11 +5,9 @@ import os
 import boto3
 import pandas as pd
 
-#bucket_name = os.environ['bucket_name']
-#dynamo_table = os.environ['dynamodb_table']
+bucket_name = os.environ['bucket_name']
+dynamo_table = os.environ['dynamodb_table']
 
-bucket_name = 'holladileep'   
-dynamo_table = 'DemoLoad'
 
 # Connect to S3
 s3 = boto3.resource(
