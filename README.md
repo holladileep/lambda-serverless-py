@@ -16,9 +16,10 @@ Sign up for an AWS Account [here](https://portal.aws.amazon.com/billing/signup#/
 
 ### Configuring your AWS CLI 
 
-Download your AWS Access and Secret access keys for your AWS Account. Steps to generate and download your keys can be found [here] (https://docs.amazonaws.cn/en_us/IAM/latest/UserGuide/id_credentials_access-keys.html) 
+Download your AWS Access and Secret access keys for your AWS Account. Steps to generate and download your keys can be found [here](https://docs.amazonaws.cn/en_us/IAM/latest/UserGuide/id_credentials_access-keys.html) 
 
 > :warning: Never share your access and secret access keys or push them to GitHub<br />
+
 
 Open command line tool of choice on your machine and run `aws configure`. Enter your access and secret access keys and leave the default region name and output format as null. 
 
@@ -27,16 +28,19 @@ $ aws configure
 AWS Access Key ID [None]: AKIAIOSFODNN7EXAMPLE
 AWS Secret Access Key [None]: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
 Default region name [None]: 
-Default output format [None]: 
+Default output format [None]: json
 ```
 
-### Create a IAM Role
+
+### Create an IAM Role
 
 Create an IAM Role on your AWS account called `lambda_basic_execution` with the `LambdaBasicExecution` policy attached.
+
 
 ### Clone
 
 Clone this repo to your local machine using `git clone https://github.com/holladileep/lambda-serverless-py.git`
+
 
 
 ## Build + Deploy Lambda 
@@ -45,9 +49,18 @@ Lambda functions only contain a basic installation of Python + `boto3` and do no
 
 ### Building the Lambda
 
-#### Create a Virtual Environment 
+
+#### Install virtualenv
+
 ```
-pipenv shell --python 3.7
+pip3 install virtualenv
+```
+
+#### Create a Virtual Environment 
+
+```
+mkvirtualenv my_first_lambda
+mkdir my_first_lambda
 pip3 install python-lambda
 ```
 
@@ -58,7 +71,11 @@ If your python script requires any additonal libraries - you may install it at t
 ```
 lambda init
 ```
-This creates the following files: `event.json`,` __init__.py`, `service.py`, and `config.yaml`. The `service.py` is the file we are interested in. Edit `service.py` with your Python code and we are good to go. 
+
+This creates the following files: `event.json`,` __init__.py`, `service.py`, and `config.yaml`. 
+
+The `service.py` is the file we are interested in. Edit `service.py` with your Python code and we are good to go. 
+
 
 #### Configuring the Lambda
 
@@ -78,6 +95,7 @@ role: lambda_basic_execution
 aws_access_key_id: <Enter your Access Keys>
 aws_secret_access_key: <Enter your Secret Access Keys>
 
+# These may be changed based on how much memory your code needs
 timeout: 15
 memory_size: 512
 
