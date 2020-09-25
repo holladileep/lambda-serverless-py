@@ -3,10 +3,12 @@
 
 Basic boilerplate for a Python Lambda Function + deployment using `python-lambda`. Working with Lambda is VERY easy, but the process of packaging libraries and deploying your code is where things start going haywire. 
 
+
 ## Requirements
 
 - The pipeline requires an Amazon Web Services account to deploy and run. Signup for an AWS Account [here](https://portal.aws.amazon.com/billing/signup#/start).
 - Python 3.7+
+
 
 ## Setup
 
@@ -17,6 +19,7 @@ Sign up for an AWS Account [here](https://portal.aws.amazon.com/billing/signup#/
 ### Configuring your AWS CLI 
 
 Download your AWS Access and Secret access keys for your AWS Account. Steps to generate and download your keys can be found [here](https://docs.amazonaws.cn/en_us/IAM/latest/UserGuide/id_credentials_access-keys.html) 
+
 
 > :warning: Never share your access and secret access keys or push them to GitHub<br />
 
@@ -34,7 +37,11 @@ Default output format [None]: json
 
 ### Create an IAM Role
 
-Create an IAM Role on your AWS account called `lambda_basic_execution` with the `LambdaBasicExecution` policy attached.
+Create an IAM Role on your AWS account called `lambda_basic_execution` with the follwing policies attached 
+
+- `LambdaBasicExecution` 
+- `AmazonS3FullAccess`
+- `AmazonDynamoDBFullAccess`
 
 
 ### Clone
@@ -47,13 +54,18 @@ Clone this repo to your local machine using `git clone https://github.com/hollad
 
 Lambda functions only contain a basic installation of Python + `boto3` and do not contain any external libraries. Any external libraries need to be packaged and deployed to AWS.
 
+
 ### Building the Lambda
+
+We'll make use for virtualenv to create a virtual environment. For correct virtualenv setup and configuration, refer this [documentation](https://virtualenvwrapper.readthedocs.io/en/latest/install.html)
 
 > Create a Virtual Environment 
 
+
 ```
-pip3 install pipenv
-pipenv shell --python 3.7
+mkdir first-lambda
+cd first-lambda
+mkvirtualenv first_lambda
 pip3 install python-lambda
 ```
 
@@ -109,7 +121,8 @@ lambda deploy
 This should create a new Lambda function on your AWS Lambda Console
 
 
-
-### Using the Lambda Functions on this repo
+## Using this Repository
 
 The directories prefixed with `lambda-` are all Lambda functions, they can be cloned and deployed on to your AWS Account. The directory contains the config.yaml (with all the configuration information) +  Pipfile containing the project dependencies. 
+
+#### lambda-event-driven-s3-to-dynamo
