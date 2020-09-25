@@ -4,15 +4,15 @@ import json
 import os
 import boto3
 import pandas as pd
+import io
 
 bucket_name = os.environ['bucket_name']
 dynamo_table = os.environ['dynamodb_table']
 
-
 # Connect to S3
 s3 = boto3.resource(
     service_name='s3',
-    region_name='us-east-2')
+    region_name='us-east-1')
 
 # Connect to DynamoDB
 resource = boto3.resource('dynamodb', region_name='us-east-1')
@@ -22,11 +22,17 @@ table = resource.Table(dynamo_table)
 
 
 def getDynamoItems():
-    resp = table.scan(AttributesToGet=['filename'])
-    df2 = pd.DataFrame(resp['Items'])
 
-    loaded_files = df2['filename'].unique()
+    try:
 
+        resp = table.scan(AttributesToGet=['filename'])
+        df2 = pd.DataFrame(resp['Items'])
+
+        loaded_files = df2['filename'].unique()
+    except:
+        print ('Probably no loaded data on Dynamo')
+    #     return empty list
+        loaded_files = []
     return loaded_files
 
 def load_dynamo(df):
@@ -45,7 +51,7 @@ def read_file(s3_key):
 
     print ('Getting file %s..' % s3_key)
     obj = s3.get_object(Bucket=bucket_name, Key=s3_key)
-    df = pd.read_csv(obj['Body'])
+    df = pd.read_csv(io.BytesIO(obj['Body'].read()))
 
     # Add the filename and current date & time to the dataframe
     df['filename'] = s3_key
@@ -56,7 +62,7 @@ def read_file(s3_key):
     load_dynamo(df)
 
 
-def handler(event, context):
+def service(event, context):
     # TODO implement
     my_bucket = s3.Bucket(bucket_name)
 
