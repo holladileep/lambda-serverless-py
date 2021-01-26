@@ -67,6 +67,7 @@ mkdir first-lambda
 cd first-lambda
 mkvirtualenv first_lambda
 pip3 install python-lambda
+pip3 install pandas
 ```
 
 If your python script requires any additonal libraries - you may install it at this stage.
@@ -104,6 +105,10 @@ aws_secret_access_key: <Enter your Secret Access Keys>
 timeout: 15
 memory_size: 512
 
+# Experimental Environment variables
+environment_variables:
+    bucket_name: Your-Bucket-Name
+    dynamo_table: Your-DynamoDB-Table
 
 # Build options
 build:
